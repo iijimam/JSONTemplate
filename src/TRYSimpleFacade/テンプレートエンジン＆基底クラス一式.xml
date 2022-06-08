@@ -1,0 +1,1525 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2022.1 (Build 209U)" ts="2022-06-06 19:06:23">
+<Class name="FHIRTemplate.Bundle">
+<Description>
+</Description>
+<Super>FHIRTemplate.Resource</Super>
+<TimeChanged>66266,68718.02873011</TimeChanged>
+<TimeCreated>66266,68718.02873011</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "meta": {
+    "profile": [ "#(..#Profile)#" ]
+  },
+  "type": "document",
+  "timestamp": "#(..TimeStamp)#",
+  "entry": [
+    "#(..Resource(FHIRTemplate.Bundle.entry))#"
+  ],
+  "signature": {
+    "type":"a"
+  }
+  }
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Bundle</Default>
+</Parameter>
+
+<Parameter name="Profile">
+<Default>jpfhir.jp/fhir/eDischargeSummary/StructureDefinition/JP_Bundle_eDischargeSummary</Default>
+</Parameter>
+
+<Property name="TimeStamp">
+<Type>FHIRTemplate.DataType.TimeStamp</Type>
+</Property>
+
+<Property name="Resource">
+<Type>FHIRTemplate.Resource</Type>
+<Collection>list</Collection>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.Bundle.entry">
+<Description>
+Bundle Entry
+Bundle内でリソースを保持する</Description>
+<Super>FHIRTemplate.ResourceBase</Super>
+<TimeChanged>66266,68320.023212693</TimeChanged>
+<TimeCreated>66266,68320.023212693</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+	"fullUrl": "urn:uuid:#(..ResourceId)#",
+	"resource": "#($this)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.Composition">
+<Description>
+患者リソース</Description>
+<Super>FHIRTemplate.Resource</Super>
+<TimeChanged>66266,68717.671251956</TimeChanged>
+<TimeCreated>66266,68717.671251956</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "meta": {
+    "profile": [
+      "#(..#Profile)#"
+    ]
+  },
+  "status": "#(..status)#",
+  "type": "#(..type)#",
+  "category": "#(..category)#",
+  "subject": "#(..subject(Reference))#"
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Composition</Default>
+</Parameter>
+
+<Parameter name="Profile">
+<Default>http://jpfhir.jp/fhir/eDischargeSummary/StructureDefinition/JP_Composition_eDischargeSummary</Default>
+</Parameter>
+
+<Property name="status">
+<Type>%Integer</Type>
+<Parameter name="DISPLAYLIST" value=",preliminary,final,amended,entered-in-error"/>
+<Parameter name="VALUELIST" value=",0,1,-1,-2"/>
+</Property>
+
+<Property name="type">
+<Type>FHIRTemplate.DataType.CodeableConcept</Type>
+</Property>
+
+<Property name="category">
+<Type>FHIRTemplate.DataType.CodeableConcept</Type>
+</Property>
+
+<Property name="subject">
+<Type>Patient</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Age">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.450589566</TimeChanged>
+<TimeCreated>66266,68509.450589566</TimeCreated>
+
+<Parameter name="SYSTEM">
+<Default>http://unitsofmeasure.org</Default>
+</Parameter>
+
+<Property name="value">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="unit">
+<Type>%String</Type>
+</Property>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+<Parameter name="DISPLAYLIST" value=",minutes,hours,days,weeks,months,years"/>
+<Parameter name="VALUELIST" value=",min,h,d,wk,mo,a"/>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "value":"#(..value)#",
+        "unit": "#(..unit)#",
+        "system":"#(..#SYSTEM)#",
+        "code": "#(..code)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.CodeableConcept">
+<Description>
+CodableConcept</Description>
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68510.333323813</TimeChanged>
+<TimeCreated>66266,68510.333323813</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+	"coding": [
+		{
+			"system": "#(..system)#",
+			"code": "#(..code)#",
+			"display": "#(..display)#"
+		}
+	],
+	"text": "#(..text)#"
+}
+]]></Data>
+</XData>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<Property name="display">
+<Type>%String</Type>
+</Property>
+
+<Property name="text">
+<Type>%String</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.CodeableConceptBase">
+<Description>
+CodableConcept</Description>
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.665381856</TimeChanged>
+<TimeCreated>66266,68509.665381856</TimeCreated>
+
+<Parameter name="CodeSystem">
+</Parameter>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+	"coding": [
+		{
+			"system": "#(..#CodeSystem)#",
+			"code": "#(..code)#",
+			"display": "#(..display)#"
+		}
+	],
+	"text": "#(..text)#"
+}
+]]></Data>
+</XData>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<Property name="display">
+<Type>%String</Type>
+</Property>
+
+<Property name="text">
+<Type>%String</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Coding">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.642681107</TimeChanged>
+<TimeCreated>66266,68509.642681107</TimeCreated>
+
+<Parameter name="CodeSystem">
+</Parameter>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "system":"#(..system)#",
+        "version":"#(..version)#",
+        "code": "#(..code)#",
+        "display":"#(..display)#",
+        "userSelected":"#(..userSelected)#"
+}
+]]></Data>
+</XData>
+
+<Property name="system">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="display">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<Property name="version">
+<Type>%String</Type>
+</Property>
+
+<Property name="userSelected">
+<Type>%Boolean</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.CodingBase">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68510.164205398</TimeChanged>
+<TimeCreated>66266,68510.164205398</TimeCreated>
+
+<Parameter name="CodeSystem">
+</Parameter>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "system":"#(..system)#",
+        "version":"#(..version)#",
+        "code": "#(..code)#",
+        "display":"#(..display)#",
+        "userSelected":"#(..userSelected)#"
+}
+]]></Data>
+</XData>
+
+<Property name="system">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="display">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<Property name="version">
+<Type>%String</Type>
+</Property>
+
+<Property name="userSelected">
+<Type>%Boolean</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Duration">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.685256548</TimeChanged>
+<TimeCreated>66266,68509.685256548</TimeCreated>
+
+<Parameter name="SYSTEM">
+<Default>http://unitsofmeasure.org</Default>
+</Parameter>
+
+<Property name="value">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="unit">
+<Type>%String</Type>
+</Property>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "value":"#(..value)#",
+        "unit": "#(..unit)#",
+        "system":"#(..#SYSTEM)#",
+        "code": "#(..code)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Identifier">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.663021868</TimeChanged>
+<TimeCreated>66266,68509.663021868</TimeCreated>
+
+<Property name="system">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="1000"/>
+</Property>
+
+<Property name="value">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+    "system":"#(..system)#",
+    "value":"#(..value)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Period">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.646795671</TimeChanged>
+<TimeCreated>66266,68509.646795671</TimeCreated>
+
+<Property name="start">
+<Type>%String</Type>
+</Property>
+
+<Property name="end">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "start":"#(..start)#",
+        "end": "#(..end)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.PeriodNoEnd">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68510.16856748</TimeChanged>
+<TimeCreated>66266,68510.16856748</TimeCreated>
+
+<Property name="start">
+<Type>%String</Type>
+</Property>
+
+<Property name="end">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "start":"#(..start)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.Quantity">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68510.152203475</TimeChanged>
+<TimeCreated>66266,68510.152203475</TimeCreated>
+
+<Parameter name="SYSTEM">
+<Default>http://unitsofmeasure.org</Default>
+</Parameter>
+
+<Property name="value">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="comparator">
+<Type>%String</Type>
+</Property>
+
+<Property name="unit">
+<Type>%String</Type>
+</Property>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "value":"#(..value)#",
+        "unit": "#(..unit)#",
+        "system":"#(..#SYSTEM)#",
+        "code": "#(..code)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.SimpleQuantity">
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68509.641851035</TimeChanged>
+<TimeCreated>66266,68509.641851035</TimeCreated>
+
+<Property name="value">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="unit">
+<Type>%String</Type>
+</Property>
+
+<Property name="system">
+<Type>%String</Type>
+</Property>
+
+<Property name="code">
+<Type>%String</Type>
+</Property>
+
+<XData name="Template">
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+        "value":"#(..value)#",
+        "unit": "#(..unit)#",
+        "system":"#(..system)#",
+        "code": "#(..code)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.DataType.TimeStamp">
+<ClassType>datatype</ClassType>
+<ClientDataType>TIMESTAMP</ClientDataType>
+<OdbcType>TIMESTAMP</OdbcType>
+<SqlCategory>TIMESTAMP</SqlCategory>
+<Super>%DataType</Super>
+<TimeChanged>66266,68510.128753855</TimeChanged>
+<TimeCreated>66266,68510.128753855</TimeCreated>
+
+<Parameter name="FORMAT">
+<Description>
+出力フォーマット
+1 ... YYYY-MM-DDTHH:MM:SS+timezone
+2 ... YYYY-MM-DDTHH:MM:SSZ</Description>
+<Default>1</Default>
+</Parameter>
+
+<Method name="LogicalToDisplay">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>%val</FormalSpec>
+<ReturnType>%String</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	If ($$$getClassType(%class)=$$$cCLASSCLASSTYPEDATATYPE) || $$$comMemberKeyGet(%class,$$$cCLASSparameter,"XMLENABLED",$$$cPARAMdefault) || $$$comMemberKeyGet(%class,$$$cCLASSparameter,"%JSONENABLED",$$$cPARAMdefault) {
+        if ..#FORMAT=1 {
+            $$$GENERATE(" set timezone=$ztimezone*(-1),hour=timezone\60,min=timezone#60 quit $translate($zdatetime(%val,3,,3),"" "",""T"")_""+""_(hour\10)_(hour#10)_"":""_(min\10)_(min#10)")
+        } elseif ..#FORMAT=2 {
+            $$$GENERATE(" quit $translate($zdatetime(%val,3,,3),"" "",""T"")_""Z""")
+        }
+    }
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FHIRTemplate.Observation">
+<Super>FHIRTemplate.Resource</Super>
+<TimeChanged>66266,68717.759111605</TimeChanged>
+<TimeCreated>66266,68717.759111605</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+https://jpfhir.jp/jpcoreV1/ObservationCommon を参考に作成
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "category": [ "#(..Category)#" ],
+  "code": "#(..Code)#",
+  "effectiveDateTime": "#(..EffectiveDateTime)#",
+  "subject": "#(..Patient(FHIRTemplate.Reference))#",
+  "status": "final",
+  "valueQuantity": "#(..ValueQuantity(FHIRTemplate.DataType.Quantity))#"
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Observation</Default>
+</Parameter>
+
+<Property name="Category">
+<Type>FHIRTemplate.DataType.CodeableConceptBase</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="Code">
+<Type>FHIRTemplate.DataType.CodeableConceptBase</Type>
+</Property>
+
+<Property name="EffectiveDateTime">
+<Type>FHIRTemplate.DataType.TimeStamp</Type>
+</Property>
+
+<Property name="Patient">
+<Description>
+Patientリファレンス</Description>
+<Type>FHIRTemplate.Patient</Type>
+</Property>
+
+<Property name="ValueQuantity">
+<Type>FHIRTemplate.DataType.Quantity</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.Patient">
+<Description>
+患者リソース</Description>
+<Super>Resource</Super>
+<TimeChanged>66266,68717.955205587</TimeChanged>
+<TimeCreated>66266,68717.955205587</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "meta": {
+    "profile": [ "#(..ProfileURI)#" ]
+  },
+  "identifier": [
+    {
+      "system": "urn:oid:1.2.392.100495.20.3.51.1#(..HospitalId)#",
+      "value": "#(..PatientId)#"
+    }
+  ],
+  "name": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
+          "valueCode": "IDE"
+        }
+      ],
+      "use": "official",
+      "text": "  #(..LastName)# #(..FirstName)#",
+      "family": "#(..LastName)#",
+      "given": [
+        "#(..FirstName)#"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
+          "valueCode": "SYL"
+        }
+      ],
+      "use": "official",
+      "text": "#(..LastNameKana)# #(..FirstNameKana)#",
+      "family": "#(..LastNameKana)#",
+      "given": [
+        "#(..FirstNameKana)#"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "value": "#(..Phone)#",
+      "use": "home"
+    }
+  ],
+  "gender": "#(..Gender)#",
+  "birthDate": "#(..DOB)#",
+  "address": [
+    {
+      "postalCode": "#(..PostalCode)#",
+      "text": "#(..Address)#"
+    }
+  ],
+  "maritalStatus": "#(..MaritalStatus)#"
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Patient</Default>
+</Parameter>
+
+<Property name="ProfileURI">
+<Type>%String</Type>
+</Property>
+
+<Property name="LastName">
+<Type>%String</Type>
+</Property>
+
+<Property name="FirstName">
+<Type>%String</Type>
+</Property>
+
+<Property name="LastNameKana">
+<Type>%String</Type>
+</Property>
+
+<Property name="FirstNameKana">
+<Type>%String</Type>
+</Property>
+
+<Property name="Phone">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+<Parameter name="FORMAT" value="3"/>
+</Property>
+
+<Property name="Gender">
+<Type>%String</Type>
+<Parameter name="DISPLAYLIST" value=",male,female"/>
+<Parameter name="VALUELIST" value=",1,2"/>
+</Property>
+
+<Property name="PostalCode">
+<Type>%String</Type>
+</Property>
+
+<Property name="HospitalId">
+<Type>%String</Type>
+</Property>
+
+<Property name="PatientId">
+<Type>%String</Type>
+</Property>
+
+<Property name="Address">
+<Type>%String</Type>
+</Property>
+
+<Property name="MaritalStatus">
+<Type>FHIRTemplate.DataType.CodeableConcept</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.Practitioner">
+<Description>
+患者リソース</Description>
+<Super>FHIRTemplate.Resource</Super>
+<TimeChanged>66266,68718.258484547</TimeChanged>
+<TimeCreated>66266,68718.258484547</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "meta": {
+    "profile": [
+      "#(..#Profile)#"
+    ]
+  },
+  "name": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
+          "valueCode": "IDE"
+        }
+      ],
+      "use": "official",
+      "text": "#(..LastName)# #(..FirstName)#",
+      "family": "#(..LastName)#",
+      "given": [
+        "#(..FirstName)#"
+      ]
+    },
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
+          "valueCode": "SYL"
+        }
+      ],
+      "use": "official",
+      "text": "#(..LastNameKana)# #(..FirstNameKana)# ",
+      "family": "#(..LastNameKana)#",
+      "given": [
+        "#(..FirstNameKana)#"
+      ]
+    }
+  ]  
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Practitioner</Default>
+</Parameter>
+
+<Parameter name="Profile">
+<Default>http://jpfhir.jp/fhir/eClinicalSummary/StructureDefinition/JP_Practitioner_eClinicalSummary_author</Default>
+</Parameter>
+
+<Property name="LastName">
+<Type>%String</Type>
+</Property>
+
+<Property name="FirstName">
+<Type>%String</Type>
+</Property>
+
+<Property name="LastNameKana">
+<Type>%String</Type>
+</Property>
+
+<Property name="FirstNameKana">
+<Type>%String</Type>
+</Property>
+</Class>
+
+
+<Class name="FHIRTemplate.Reference">
+<Description>
+参照テンプレート</Description>
+<Super>ResourceBase</Super>
+<TimeChanged>66266,68315.912237797</TimeChanged>
+<TimeCreated>66266,68315.912237797</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+	"reference": "urn:uuid:#(..ResourceId)#",
+  "type": "#(..#ResourceType)#"
+}
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="FHIRTemplate.Resource">
+<Description>
+患者リソース</Description>
+<Super>FHIRTemplate.Reference,FHIRTemplate.Bundle.entry</Super>
+<TimeChanged>66266,68354.194405318</TimeChanged>
+<TimeCreated>66266,68354.194405318</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート)
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+  "resourceType": "#(..#ResourceType)#",
+  "meta": {
+    "profile": "#(..#Profile)#"
+  }
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Resource</Default>
+</Parameter>
+
+<Parameter name="Profile">
+</Parameter>
+</Class>
+
+
+<Class name="FHIRTemplate.ResourceBase">
+<Description>
+患者リソース</Description>
+<Abstract>1</Abstract>
+<Super>JSONTemplate.Base</Super>
+<TimeChanged>66266,68311.43700445</TimeChanged>
+<TimeCreated>66266,68311.43700445</TimeCreated>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[
+{
+	"fullUrl": "urn:uuid:#(..ResourceId)#",
+	"resource": "#($this)#"
+}
+]]></Data>
+</XData>
+
+<Parameter name="ResourceType">
+<Default>Resource</Default>
+</Parameter>
+
+<Property name="ResourceId">
+<Type>%String</Type>
+<InitialExpression>$zcvt($SYSTEM.Util.CreateGUID(),"L")</InitialExpression>
+<Required>1</Required>
+</Property>
+</Class>
+
+
+<Class name="JSONTemplate.Base">
+<Abstract>1</Abstract>
+<IncludeCode>%occErrors</IncludeCode>
+<Super>%RegisteredObject</Super>
+<TimeChanged>66266,67897.593954448</TimeChanged>
+<TimeCreated>66266,67897.593954448</TimeCreated>
+<DependsOn>JSONTemplate.Generator</DependsOn>
+
+<XData name="Template">
+<Description>
+JSON出力する際のテンプレート
+JSONの値に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+#(..プロパティ名(テンプレート名))#を指定すると、特定のプロパティに対して
+テンプレートとして使用するクラスを指定できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<MimeType>application/json</MimeType>
+<Data><![CDATA[{}
+]]></Data>
+</XData>
+
+<Parameter name="%JSONENABLED">
+<Default>1</Default>
+</Parameter>
+
+<Method name="OutputToDevice">
+<Description>
+標準デバイスへの出力</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+        set ret=$$$OK
+        set json=..Process($this,.ret)
+        if $$$ISOK(ret) {
+            set out=##class(%JSON.Formatter).%New()
+            set out.Indent=1
+            set ret=out.Format(json)
+        }
+        quit ret
+]]></Implementation>
+</Method>
+
+<Method name="OutputToFile">
+<Description>
+ファイルへの出力</Description>
+<FormalSpec>filename:%String,charset:%String="UTF8"</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ret=$$$OK
+    open filename:("WNS"_$select(charset'="":"K\"_charset_"\",1:"")):5
+    if '$test {
+        quit $$$ERROR($$$FileCanNotOpen,filename)
+    }
+    try {
+        set tpl=..Process($this,.ret)
+        quit:$$$ISERR(ret)
+
+        #dim out as %JSON.Formatter
+        set out=##class(%JSON.Formatter).%New()
+        set out.Indent=1
+
+        use filename
+        set ret=out.Format(tpl)
+    } catch err {
+        set ret=err.AsStatus()
+    }
+    close filename
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="OutputToStream">
+<Description>
+ストリームへの出力</Description>
+<FormalSpec>stream:%Stream</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ret=$$$OK
+    try {
+        set tpl=..Process($this,.ret)
+        quit:$$$ISERR(ret)
+        do tpl.%ToJSON(stream)
+    } catch err {
+        set ret=err.AsStatus()
+    }
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="Process">
+<Description>
+テンプレートからJSONデータを出力
+テンプレートを元にプロパティを挿入したJSONオブジェクトを返す</Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>objectgenerator</CodeMode>
+<FormalSpec><![CDATA[obj:%RegisteredObject,&ret:%Status]]></FormalSpec>
+<ReturnType>%DynamicAbstractObject</ReturnType>
+<Implementation><![CDATA[
+    // Abstractクラスの場合は生成しない
+    if %class.Abstract {
+        do %code.WriteLine(" set ret=$$$NotImplemented quit """"")
+        quit $$$OK
+    }
+    set ret=$$$OK,lineno=0
+    try {
+        set %debug=$get(%debug,0)
+        // プロパティの一覧と型を取得
+        set key="" for {
+            set pdef=%compiledclass.Properties.GetNext(.key)
+            quit:key=""
+            set tdef=##class(%Dictionary.ClassDefinition).%OpenId(pdef.Type,,.ret)
+            //quit:$$$ISERR(ret)
+            set display=$select(pdef.Parameters.GetAt("DISPLAYLIST")'=""||(pdef.Parameters.GetAt("FORMAT")'=""):1,1:0)
+            set classtype=$select($isobject(tdef)&&(tdef.ClassType="datatype"):tdef.ClientDataType,$extract(pdef.Type)="%":tdef.ClientDataType,1:"")
+
+            set props(pdef.Name)=$lb(pdef.Type,classtype,pdef.Required,pdef.Collection,display)
+        }
+        quit:$$$ISERR(ret)
+
+        // パラメータの一覧を取得
+        set key="" for {
+            set pdef=%compiledclass.Parameters.GetNext(.key)
+            quit:key=""
+            set params(pdef.Name)=$lb(pdef.Default)
+        }
+        do %code.WriteLine(" set ret=$$$OK try {")
+
+        // テンプレートを読み込む
+        Set compiledXdata=##class(%Dictionary.CompiledXData).%OpenId(%class.Name_"||Template")
+        set tplstm=compiledXdata.Data
+        do tplstm.Rewind()
+
+        // JSONからオブジェクトを作成
+        set tpl={}.%FromJSON(tplstm)
+        if 'tpl.%IsA("%DynamicObject") {
+            set ret=$$$ERROR(5001,"テンプレートがJSON objectではありません")
+            quit
+        }
+        // JSON出力処理の生成
+        set code=##class(%Stream.TmpCharacter).%New()
+        //set code.TranslateTable="UTF8"
+        do ##class(Generator).InitJSONString()
+        set objstr=##class(Generator).SetJSONString(code,tpl)
+        set ret=##class(JSONTemplate.Generator).GenerateObject(code, "object",tpl,objstr,.params,.props)
+        quit:$$$ISERR(ret)
+        do code.Rewind()
+        while 'code.AtEnd {
+            set line=code.ReadLine()
+            if $zstrip(line,"<>W")?1"$tpl"1.N {
+                // $tplで始まる行があれば、JSON文字列出力
+                write "line "_line,!
+                do %code.WriteLine("  set "_$piece(line,"$",2)_"="_%jsonstring(+$piece(line,"$tpl",2)).%ToJSON())
+            } else {
+                do %code.WriteLine("   "_line)
+            }
+        }
+
+        do %code.WriteLine(" } catch err { set ret=err.AsStatus() }")
+        do %code.WriteLine(" quit $select($$$ISOK(ret):"_objstr_",1:"""")")
+
+    } catch err {
+        set ret=$SYSTEM.Status.AppendStatus($$$ERROR(5001,"エラーが発生しました"),err.AsStatus())
+    }
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="%OnNew">
+<FormalSpec>initvalue:%DynamicObject=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    quit:initvalue="" $$$OK
+    quit:'$isobject(initvalue)||('initvalue.%IsA("%DynamicObject")) $$$ERROR(5001,"%DynamicObjectを継承したインスタンスを指定してください")
+    set ret=$$$OK
+    try {
+        set iter=initvalue.%GetIterator()
+        while iter.%GetNext(.mkey,.value) {
+            set mtype=$select($isobject(value):$select(value.%IsA("%DynamicArray"):"object",1:"array"),1:"string")
+            set $property($this,mkey)=value
+        }
+    } catch err {
+        set ret=err.AsStatus()
+    }
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="GetByCode">
+<Description>
+コード文字列からインスタンスを取得
+継承先にて実装</Description>
+<Abstract>1</Abstract>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>code:%String</FormalSpec>
+<ReturnType>JSONTemplate.Base</ReturnType>
+<Implementation><![CDATA[	quit ""
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="JSONTemplate.Generator">
+<Super>%RegisteredObject</Super>
+<TimeChanged>66266,67897.472362885</TimeChanged>
+<TimeCreated>66266,67897.472362885</TimeCreated>
+
+<Method name="GenerateObject">
+<Description>
+JSON出力する処理の生成
+JSONの値の文字列に#(..プロパティ名)#または#(..#パラメータ名)#を指定することで
+プロパティの値をJSON形式で出力できます。
+プロパティの型がJSONTemplate.Baseを継承したクラスの場合、
+そのクラスのテンプレートからJSON出力します。</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[outstream:%Stream,type:%String,template:%DynamicAbstractObject,path:%String,&params,&props]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set ret=$$$OK
+    try {
+        set dynamic=0
+        
+        // templateのメンバーを順に取り出す
+        set iter=template.%GetIterator()
+#if $SYSTEM.Version.GetMajor()>2021
+        while iter.%GetNext(.mkey,.value,.mtype) {
+#Else
+        while iter.%GetNext(.mkey,.value) {
+            set mtype=$select($isobject(value):$select(value.%IsA("%DynamicArray"):"object",1:"array"),1:"string")
+#Endif
+             if mtype="object" {
+                // メンバーがオブジェクトの場合
+                set path2=$select(dynamic:..SetJSONString(outstream, value),1:path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                set ret=..GenerateObject(outstream, "object",value,path2,.params,.props)
+                quit:$$$ISERR(ret)
+                do:dynamic outstream.WriteLine(" do "_path_".%Push("_path2_")")
+                continue
+            } elseif mtype="array" {
+                // メンバーがarray の場合
+                // Array部分の生成
+                set path2=$select(dynamic:..SetJSONString(outstream, value),1:path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                set ret=..GenerateObject(outstream, "array", value, path2, .params, .props)
+                quit:$$$ISERR(ret)
+                do:dynamic outstream.WriteLine(" do "_path_".%Push("_path2_")")
+                continue
+            } elseif value'["#("&&(value'[")#") {
+                // 固定文字列の場合
+                if type="array"&&(dynamic) {
+                    do ..OutputValue(outstream,value,path_".%Get("_mkey_")")
+                }
+                continue
+            } elseif value="#($this)#" {
+                // 現在のインスタンスでデフォルトのテンプレートを使って出力する
+                // objectやarray形式の置き換え
+                set token=$piece($piece(value,")#"),"#(",2)
+                set ret=..GetParamInfo(token,.info,.params,.props)
+                quit:$$$ISERR(ret)
+                //zw info
+                set:'dynamic&&(type="array") dynamic=mkey+1
+                do ..OutputObject(outstream, info, path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                do template.%Set(mkey,"")
+                continue
+            } elseif value?1"#("2"."1E1A.AN.1(1"("1(1A.AN).(1"."1A.AN)1")")1")#" {
+                // objectやarray形式の置き換え
+                set token=$piece($piece(value,")#"),"#(",2)
+                set ret=..GetParamInfo(token,.info,.params,.props)
+                quit:$$$ISERR(ret)
+                //zw info
+                set:'dynamic&&(type="array") dynamic=mkey+1
+                if $lg(info)="param" {
+                    // パラメータの場合
+                    do ..OutputParameter(outstream,$lg(info,2),path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                    do template.%Set(mkey,"")
+                    continue
+                }
+                if $lg(info)="prop" {
+                    // プロパティの場合
+                    if $lg(info,4)="" {
+                        do ..OutputObject(outstream, info, path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                    } else {
+                        do ..OutputProperty(outstream, info, path_"."_$select(type="object":mkey,1:"%Get("_mkey_")"))
+                    }
+                    do template.%Set(mkey,"")
+                    continue
+                }
+                continue
+           }
+            // 文字列、数字の置き換え
+            // 最初に#)がないかをチェック
+            set code=""
+            set literal=$piece(value,"#(")
+            if $length(literal,")#")>1 {
+                set ret=$$$ERROR(5001,"「#(」が見つかりません")
+                quit
+            }
+            set code="",codeopen=0
+            set:literal'="" code=""""_$replace(literal,"""",""""""),codeopen=1
+
+            // プロパティ、パラメータを抽出
+            for v=2:1:$length(value,"#(") {
+                set var=$piece(value,"#(",v)
+                // )#があることをチェック
+                set l=$length(var,")#")
+                if l'=2 {
+                    set ret=$$$ERROR(5001,"「)#」が"_$select(l>2:"多すぎます",1:"見つかりません"))
+                    quit
+                }
+                set literal=$piece(var,")#",2)
+                set var=$piece(var,")#")
+                quit:$$$ISERR(ret)
+                set ret=..GetParamInfo(var,.info,.params,.props)
+                quit:$$$ISERR(ret)
+                if $lg(info)="param" {
+                    set code=code_$select(code'=""&&codeopen:"""_",code'="":"_",1:"")_"obj.#"_$lg(info,2),codeopen=0
+                } elseif $lg(info)="prop" {
+                    set code=code_$select(code'=""&&codeopen:"""_",code'="":"_",1:"")_"obj."_$lg(info,2),codeopen=0
+                }
+                set:literal'="" code=code_$select(code'=""&&codeopen:"",code'="":"_""",1:"""")_$replace(literal,"""",""""""),codeopen=1
+            }
+            set code=code_$select(codeopen:"""",1:"")
+            set:'dynamic&&(type="array") dynamic=mkey+1
+            // 出力
+            if type="array" {
+                do outstream.WriteLine(" do "_path_".%Push("_code_")")
+            } else {
+                do outstream.WriteLine(" set "_path_"."_mkey_"="_code)
+            }
+            do template.%Set(mkey,"")
+            quit:$$$ISERR(ret)
+#if $SYSTEM.Version.GetMajor()>2021
+        }
+#else
+        }
+#endif
+        if type="array"&&dynamic {
+            set size=template.%Size()
+            for i=dynamic:1:size {
+                do template.%Pop()
+            }
+        }
+    } catch err {
+        set ret=$SYSTEM.Status.AppendStatus($$$ERROR(5001,"エラーが発生しました"),err.AsStatus())
+    }
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="GetParamInfo">
+<Description>
+変数の構文解析
+パラメータやプロパティの属性を取得する
+info ... $lb("param",paramname,default)
+         $lb("this","",%class.Name,"object")
+         $lb("prop",propname,proptype,classtype,required,collection,displayflg,templateclass)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[token:%String,&info,&params,&props]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    set info=""
+    set ret=$$$OK
+    try {
+        if token="$this" {
+            set info=$lb("this","",%class.Name,"object")
+        } elseif $extract(token,1,3)="..#" {
+            // パラメータ値代入
+            set token=$extract(token,4,*)
+            write:%debug "パラメータ:",token,!
+            // パラメータチェック
+            if token="" {
+                set ret=$$$ERROR(5001,"パラメータ名が存在しません")
+                quit
+            }
+            if '$data(params(token),val) {
+                set ret=$$$ERROR(5001,"パラメータ「"_token_"」が存在しません")
+                quit
+            }
+            set info=$lb("param",token)_val
+        } elseif $extract(token,1,2)=".." {
+            set token=$extract(token,3,*)
+            // パラメータチェック
+            write:%debug "プロパティ:",token,!
+            // テンプレートクラスチェック
+            if token["(" {
+                set templateclass=$piece($piece(token,")"),"(",2)
+                set token=$piece(token,"(")
+                if templateclass="" {
+                    set ret=$$$ERROR(5001,"プロパティ"_token_"のテンプレート名が指定されていません")
+                    quit
+                }
+            }
+            if token="" {
+                set ret=$$$ERROR(5001,"プロパティ名が存在しません")
+                quit
+            }
+            if '$data(props(token),val) {
+                set ret=$$$ERROR(5001,"プロパティ「"_token_"」が存在しません")
+                quit
+            }
+            set info=$lb("prop",token)_val_$select($data(templateclass):$lb(templateclass),1:"")
+        } else {
+            set ret=$$$ERROR(5001,"パラメータ、プロパティの指定が誤っています 値:"_token)
+            quit
+        }
+    } catch err {
+        set ret=err.AsStatus()
+    }
+    quit ret
+]]></Implementation>
+</Method>
+
+<Method name="OutputParameter">
+<Description>
+パラメータ値の出力</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>outstream:%Stream,param:%String,path:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    write:%debug "output parameter",!
+    set base=$piece(path,".",1,*-1)_".",current=$piece(path,".",*)
+    if $piece(path,".",*)["(" {
+        set cmd=base_$zstrip($replace(current,"%Get","%Push"),">W",")")
+        do outstream.WriteLine(" do "_base_"%Push(obj.#"_param_")")
+    } else {
+        do outstream.WriteLine(" set "_path_"=obj.#"_param)
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OutputValue">
+<Description>
+固定文字列の出力</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>outstream:%Stream,value:%String,path:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    write:%debug "output value",!
+    set base=$piece(path,".",1,*-1)_"."
+    do outstream.WriteLine(" do "_base_"%Push("_$select((+value)=value:value,1:""""_$replace(value,"""","""""")_""")"))
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OutputObject">
+<Description>
+オブジェクト出力</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>outstream:%Stream,info:%List,path:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    write:%debug "output Object",!
+    set propstr=$select($lg(info,2)'="":"obj."_$lg(info,2),1:"obj")
+    set templatestr=$select($lg(info,8)'="":"##class("_$lg(info,8)_")",1:propstr)
+    set templateclass=$select($lg(info,8)'="":$lg(info,8),1:$lg(info,3))
+
+    set base=$piece(path,".",1,*-1)_".",current=$piece(path,".",*)
+    if $lg(info,6)'="" {
+        // リスト形式の場合
+        //set cmd=base_$replace(current,"%Get","%Remove")
+        //do outstream.WriteLine(" do "_base_$replace(current,"%Get","%Remove"))
+        do outstream.WriteLine(" if $isobject("_propstr_") {")
+        do outstream.WriteLine(" if "_propstr_".%Extends(""%Library.DynamicArray"") {")
+        do outstream.WriteLine("   set iter="_propstr_".%GetIterator() for loop=1:1 { quit:'iter.%GetNext(.k,.v)  do "_base_"%Push(##class("_templateclass_").Process(v,.ret)) quit:$$$ISERR(ret) } quit:$$$ISERR(ret)")
+        do outstream.WriteLine(" } else {")
+        do outstream.WriteLine("   set key="""" for loop=1:1 { set obj2="_propstr_".GetNext(.key) quit:key=""""  do "_base_"%Push("_templatestr_".Process(obj2,.ret)) quit:$$$ISERR(ret) } quit:$$$ISERR(ret)")
+        do outstream.WriteLine(" }}")
+    } else {
+        // プロパティがオブジェクトの場合
+        if current["(" {
+            // リスト形式の場合
+            //set cmd=base_$zstrip($replace(current,"%Get","%Push"),">W",")")
+            do outstream.WriteLine(" if $isobject("_propstr_") {")
+            do outstream.WriteLine(" if "_propstr_".%Extends(""%Library.DynamicObject"") {")
+            do outstream.WriteLine("   do "_base_"%Push(##class("_templateclass_").Process("_propstr_",.ret)) quit:$$$ISERR(ret)")
+        } else {
+            // オブジェクト形式の場合
+            do outstream.WriteLine(" if $isobject("_propstr_") {")
+            do outstream.WriteLine(" if "_propstr_".%Extends(""%Library.DynamicObject"") {")
+            do outstream.WriteLine("   set "_path_"=##class("_templateclass_").Process("_propstr_",.ret) quit:$$$ISERR(ret)")
+        }
+        if $lg(info)="this" {
+            // $thisの場合、自己参照に陥るのを防ぐ
+            do outstream.WriteLine(" } elseif "_propstr_".%ClassName(1)="""_$lg(info,3)_""" {")
+            do outstream.WriteLine("   set ret=$$$ERROR(5001,""テンプレートとオブジェクトの型が一致しているため出力できません class=""_"_propstr_".%ClassName(1)) quit")
+        }
+        do outstream.WriteLine(" } elseif "_propstr_".%Extends("""_$lg(info,3)_""") {")
+        if current["(" {
+            // リスト形式の場合
+            //set cmd=base_$zstrip($replace(current,"%Get","%Set"),">W",")")
+            do outstream.WriteLine("   do "_base_"%Push("_templatestr_".Process("_propstr_",.ret)) quit:$$$ISERR(ret)")
+        } else {
+            // オブジェクト形式の場合
+            do outstream.WriteLine("   set "_path_"="_templatestr_".Process("_propstr_",.ret) quit:$$$ISERR(ret)")
+        }
+        do outstream.WriteLine(" } else { set ret=$$$ERROR(5001,""プロパティ"_$lg(info,2)_"の型が誤っています class=""_"_propstr_".%ClassName(1)) quit }")
+        
+        /*
+        // GetByCodeメソッドが存在する場合(Abstract=0)、プロパティに文字列が指定されるとその文字からオブジェクトを取得する
+        set mdef=##class(%Dictionary.CompiledMethod).%OpenId($lg(info,3)_"||GetByCode")
+        if $isobject(mdef)&&('mdef.Abstract) {
+            do outstream.WriteLine(" } elseif "_propstr_"'="""" { set "_path_"=##class("_templateclass_").Process(##class("_templateclass_").GetByCode("_propstr_"),.ret)")
+        }
+        */
+        do outstream.WriteLine(" } else {")
+        // プロパティがNULLの場合
+        if current["(" {
+            do:$lg(info,5) outstream.WriteLine("   set ret=$$$ERROR(5001,""プロパティ"_$lg(info,2)_"がNULLになっています"") quit")
+        } else {
+            do outstream.WriteLine("   "_$select('$lg(info,5):"do "_base_"%Remove("""_current_""")",1:"set ret=$$$ERROR(5001,""プロパティ"_$lg(info,2)_"がNULLになっています"") quit"))
+        }
+
+        do outstream.WriteLine(" }")
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OutputProperty">
+<Description>
+プロパティ値の出力</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>outstream:%Stream,info:%List,path:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    write:%debug "output Property",!
+    set propstr=$select($lg(info,2)'="":"obj."_$lg(info,2),1:"obj")
+    set base=$piece(path,".",1,*-1)_".",current=$Piece(path,".",*)
+
+    // リストの場合
+    if $lg(info,6)'="" {
+        do outstream.WriteLine(" if "_propstr_"="""" {")
+        do outstream.WriteLine(" } elseif "_propstr_".%Extends(""%Library.DynamicArray"") {")
+        do outstream.WriteLine("   set iter="_propstr_".%GetIterator() for loop=1:1 { quit:'iter.%GetNext(.k,.v)  do "_base_"%Push(v) }")
+        do outstream.WriteLine(" } else {")
+        do outstream.WriteLine("   set key="""" for loop=1:1 { set v="_propstr_".GetNext(.key) quit:key=""""  do "_base_"%Push(v) }")
+        do outstream.WriteLine(" }")
+    } else {
+        
+        if current["(" {
+            // Arrayの場合
+            do outstream.WriteLine(" do:"_propstr_"'="""" "_base_"%Push("_propstr_$select($lg(info,7):"LogicalToDisplay("_propstr_")",1:"")_")")
+        } else {
+            // Objectの場合
+            do:'$lg(info,5) outstream.WriteLine(" if "_propstr_"="""" { do "_base_"%Remove("""_$piece(path,".",*)_""") } else {")
+            if $lg(info,7) {
+                // DISPLAYLIST,VALUELISTがある場合
+                do outstream.WriteLine(" set "_path_"="_propstr_"LogicalToDisplay("_propstr_")")
+            } elseif ",INTEGER,NUMERIC,DOUBLE,BIGINT,"[(","_$lg(info,4)_",") {
+                // 数値型の場合、+演算子を使って数値化
+                do outstream.WriteLine(" set "_path_"=+("_propstr_")")
+            } else {
+                do outstream.WriteLine(" set "_path_"="_propstr)
+            }
+            do:'$lg(info,5) outstream.WriteLine(" }")
+        }
+    }
+    quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="InitJSONString">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[    kill %jsonstring
+]]></Implementation>
+</Method>
+
+<Method name="SetJSONString">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>code:%Stream.TmpCharacter,tpl:%DynamicAbstractObject</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+    set %jsonstring($increment(%jsonstring))=tpl
+    do code.WriteLine("")
+    do code.WriteLine("$tpl"_%jsonstring)
+    quit "tpl"_%jsonstring
+]]></Implementation>
+</Method>
+</Class>
+</Export>
